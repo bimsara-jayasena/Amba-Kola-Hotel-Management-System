@@ -7,8 +7,7 @@ import MenuButton from "./MenuButton";
 import ColorModeIconDropdown from "../../theme/ColorModeIconDropdown";
 import { Box } from "@mui/material";
 import Search from "./Search";
-import Paper from "@mui/material";
-import { relative } from "path";
+
 
 export default function Header({routes}:{routes:string[]}) {
   return (
