@@ -24,7 +24,7 @@ export default function NavbarBreadcrumbs({route}:{route:string[]}) {
       <Typography variant="body2">Dashboard</Typography>
       
        {route.map((route:any,index:number)=>(
-        <Typography variant={index==route.length-1? "body1":"body1"} sx={{ color: 'text.primary', fontWeight: 600 }}>
+        <Typography variant= "body1" sx={{ color: 'text.primary', fontWeight: 600 }}>
         {route}
       </Typography>
        ))}
