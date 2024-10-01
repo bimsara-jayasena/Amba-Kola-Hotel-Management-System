@@ -1,33 +1,21 @@
 import bodyParser from 'body-parser';
 import express from 'express';
-import mysql from 'mysql2';
 import cors from 'cors';
+import employeeRoute from './Routes/employeeRoutes.js';
 import { configDotenv } from 'dotenv';
-configDotenv();
+
 const app=express();
-const HOST=process.env.DB_HOST;
-const USERNAME=process.env.DB_USERNAME;
-const PASSWORD=process.env.DB_PASSWORD;
-const DB=process.env.DB_DATABASE;
 const PORT=process.env.DB_PORT;
-const db=mysql.createConnection({
-    host:HOST,
-    user:USERNAME,
-    password:PASSWORD,
-    database:DB
-});
-db.connect((err)=>{
-    if(err){
-        console.error(err.message);
-    }else{
-        console.log("connected database");
-    }
-})
+configDotenv();
+
 app.use(bodyParser.json());
 app.use(cors({
     origin:["http://localhost:3000","http://localhost:3001"],
     methods:['GET','POST','PUT','DELETE']
 }))
+app.use('/employees',employeeRoute);
+
+/* 
 //add department
 app.post('/departments/add',async(req,res)=>{
     try {
@@ -151,7 +139,18 @@ app.get('/employees/:id',async(req,res)=>{
 app.put('/employees/:id',async(req,res)=>{
     try {
         const {id}=req.params;
-        const {first_name,last_name,email,contact_no,street,city,postal_code,state,department,role}=req.body;
+        const {
+        first_name,
+        last_name,
+        email,
+        contact_no,
+        street,
+        city,
+        postal_code,
+        state,
+        department,
+        role
+        }=req.body;
         //get department Id;
         const depQry="SELECT dep_id FROM departments WHERE department=?";
         const [depresult]=await db.promise().query(depQry,[department]);
@@ -308,5 +307,7 @@ app.delete('/roles/:id',async(req,res)=>{
     } catch (error) {
         res.status(500).send({"error":error.message});
     }
-})
-app.listen(PORT);
+}) */
+app.listen(PORT,()=>{
+    console.log('connection listen to port 5555')
+});
