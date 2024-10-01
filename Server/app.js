@@ -2,13 +2,19 @@ import bodyParser from 'body-parser';
 import express from 'express';
 import mysql from 'mysql2';
 import cors from 'cors';
-const port=5555;
+import { configDotenv } from 'dotenv';
+configDotenv();
 const app=express();
+const HOST=process.env.DB_HOST;
+const USERNAME=process.env.DB_USERNAME;
+const PASSWORD=process.env.DB_PASSWORD;
+const DB=process.env.DB_DATABASE;
+const PORT=process.env.DB_PORT;
 const db=mysql.createConnection({
-    host:"localhost",
-    user:"root",
-    password:"",
-    database:"amba_kola_hms"
+    host:HOST,
+    user:USERNAME,
+    password:PASSWORD,
+    database:DB
 });
 db.connect((err)=>{
     if(err){
@@ -303,4 +309,4 @@ app.delete('/roles/:id',async(req,res)=>{
         res.status(500).send({"error":error.message});
     }
 })
-app.listen(port);
+app.listen(PORT);
