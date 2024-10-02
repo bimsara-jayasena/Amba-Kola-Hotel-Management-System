@@ -4,6 +4,7 @@ import cors from 'cors';
 import employeeRoute from './Routes/employeeRoutes.js';
 import departmentRoute from './Routes/departmentRoutes.js';
 import roleRoute from './Routes/roleRoute.js';
+import roomRoute from './Routes/roomRoute.js';
 import { configDotenv } from 'dotenv';
 
 const app=express();
@@ -18,6 +19,7 @@ app.use(cors({
 app.use('/employees',employeeRoute);
 app.use('/departments',departmentRoute);
 app.use('/roles',roleRoute);
+app.use('/rooms',roomRoute);
 
 app.listen(PORT,()=>{
     console.log('connection listen to port 5555')
