@@ -37,7 +37,7 @@ export default function DeleteConfirmationDialog({open,closeDialog,handleClose,e
         }}
       >
         <DialogTitle id="alert-dialog-title">
-        <ReportIcon fontSize={'large'}/>Confirm delete record? {id}
+        <ReportIcon fontSize={'large'}/>Confirm delete record?
         </DialogTitle>
         <DialogContent>
           <DialogContentText id="alert-dialog-description">
