@@ -11,7 +11,7 @@ import { areaElementClasses } from '@mui/x-charts/LineChart';
 
 export type CustomCardProps = {
   title: string;
-  value: string;
+  value: number;
   
 };
 

@@ -75,8 +75,9 @@ export default function UpdateEmp({
   };
   const labels = labelConfig[table];
   const getEmployeData = () => {
-    axios.get(`http://localhost:5555/${table}/${id}`).then((res) => {
-      const obj = res.data[0];
+    axios.get(`http://localhost:5555/employees/35`).then((res) => {
+      const obj = res.data;
+      
       console.log(obj);
       setDepartment(obj["department"]);
       setRole(obj["role"]);

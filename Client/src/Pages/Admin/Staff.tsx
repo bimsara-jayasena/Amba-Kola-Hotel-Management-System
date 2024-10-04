@@ -242,17 +242,17 @@ export default function Staff() {
           <button
             className="w-[25vw]"
             onClick={() => handleComponent("Employee Details")}
-          >{/* empcount */}
-            <CustomCard title="Total Employes" value={empCount.toString()} />
+          >
+            <CustomCard title="Total Employes" value={empCount} />
           </button>
           <button
             className=" w-[25vw]"
             onClick={() => handleComponent("Department Details")}
           >
-            <CustomCard title="Departments" value={depCount.toString()} />
+            <CustomCard title="Departments" value={depCount} />
           </button>
           <button className="w-[25vw]">
-            <CustomCard title="Undefined" value="0" />
+            <CustomCard title="Undefined" value={0} />
           </button>
         </Grid>
         {/* Table */}
