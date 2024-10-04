@@ -15,7 +15,11 @@ const employe = {
   },
   get: async (id) => {
     try {
-      const qry = "SELECT * FROM employees WHERE emp_id=?";
+      const qry ="SELECT e.emp_id, e.first_name,e.last_name,e.email,e.contact_no,e.password,a.street,a.city,a.postal_code,a.state,d.department,r.role FROM employees as e" +
+      " INNER JOIN addresses as a ON e.emp_id=a.emp_id" +
+      " INNER JOIN departments as d ON d.dep_id=e.dep_id" +
+      " INNER JOIN roles as r ON r.role_id=e.role_id"+
+      " WHERE e.emp_id=?";
       const [res] = await db.promise().query(qry, [id]);
       return res;
     } catch (error) {

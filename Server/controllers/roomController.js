@@ -20,7 +20,7 @@ const getAll=async(req,res)=>{
 const get=async(req,res)=>{
     try {
         const {id}=req.params;
-        const result=await roomServices.get(id);
+        const [result]=await roomServices.get(id);
         res.status(200).send(result);
     } catch (error) {
         res.status(500).send({"error":error.message});
@@ -31,8 +31,9 @@ const update=async(req,res)=>{
     try {
         const {id}=req.params;
         const roomObj={
-            id,
-            ...req.body
+           
+            ...req.body,
+            id
         }
         await roomServices.update(roomObj);
         res.status(200).send({"success":"updated"});

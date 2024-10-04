@@ -5,6 +5,8 @@ import employeeRoute from './Routes/employeeRoutes.js';
 import departmentRoute from './Routes/departmentRoutes.js';
 import roleRoute from './Routes/roleRoute.js';
 import roomRoute from './Routes/roomRoute.js';
+import roomStatusRoute from './Routes/roomStatusRoutes.js';
+import roomTypeRoute from './Routes/roomTypeRoute.js';
 import { configDotenv } from 'dotenv';
 
 const app=express();
@@ -20,7 +22,8 @@ app.use('/employees',employeeRoute);
 app.use('/departments',departmentRoute);
 app.use('/roles',roleRoute);
 app.use('/rooms',roomRoute);
-
+app.use('/roomStatus',roomStatusRoute);
+app.use('/roomType',roomTypeRoute);
 app.listen(PORT,()=>{
     console.log('connection listen to port 5555')
 });
