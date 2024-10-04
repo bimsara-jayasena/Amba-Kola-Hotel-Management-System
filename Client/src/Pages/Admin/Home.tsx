@@ -9,7 +9,7 @@ import HighlightedCard from "../../components/AdminDashboard/HighlightedCard";
 import PageViewsBarChart from "../../components/AdminDashboard/PageViewsBarChart";
 import SessionChart from "../../components/AdminDashboard/SessionChart";
 import Stack from "@mui/material/Stack";
-import ChartUserByCountry from "../../components/AdminDashboard/ChartUserByCountry";
+import RoomChart from "../../components/AdminDashboard/RoomChart";
 import Header from "../../components/AdminDashboard/Header";
 import {columns,rows}  from '../../internals/data/gridData';
 const data: StatCardProps[] = [
@@ -82,7 +82,7 @@ export default function Home() {
         </Grid>
         <Grid size={{ xs: 12, lg: 3 }}>
           <Stack gap={2} direction={{ xs: "column", sm: "row", lg: "column" }}>
-            <ChartUserByCountry />
+            <RoomChart />
           </Stack>
         </Grid>
       </Grid>

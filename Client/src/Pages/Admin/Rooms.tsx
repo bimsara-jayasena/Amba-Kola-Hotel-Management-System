@@ -19,7 +19,7 @@ import Alert from "@mui/material/Alert";
 
 export default function Rooms() {
   const [selection, setSelection] = useState("All Rooms");
-  const { columns, roomTypeCol, rows, typeRows, fetchData } = GetData();
+  const { columns, roomTypeCol, rows, typeRows, fetchData,available,occuipied,checked } = GetData();
   const [roomInfo, setRoomInfo] = useState<boolean>(false);
   const [newRecord, setNewRecord] = useState(false);
   const [newType, setNewType] = useState(false);
@@ -33,9 +33,9 @@ export default function Rooms() {
   
   const [open, setOpen] = useState(false);
 
-  const [occuipied, setOccuipied] = useState<any[]>([]);
+  /* const [occuipied, setOccuipied] = useState<any[]>([]);
   const [available, setAvailable] = useState<any[]>([]);
-  const [checked, setChecked] = useState<any[]>([]);
+  const [checked, setChecked] = useState<any[]>([]); */
   const [alert, setAlert] = useState(false);
   const [alertMsg, setAlertMsg] = useState<string | null>();
   const openRoomInfo = (value: any) => {
@@ -51,7 +51,7 @@ export default function Rooms() {
     console.log(selected.length);
   }, [selected]);
 
-  useEffect(() => {
+ /*  useEffect(() => {
     console.log("rows updated");
     const occuipiedRooms = rows.filter(
       (room: any) => room.room_status == "occupied"
@@ -66,7 +66,7 @@ export default function Rooms() {
     setOccuipied(occuipiedRooms);
     setAvailable(availableRooms);
     setChecked(checkedRooms);
-  }, [rows]);
+  }, [rows]); */
 
   const handleClose = (action: string | null) => {
     fetchData();
@@ -178,7 +178,7 @@ export default function Rooms() {
         );
         break;
     }
-  }, [entity, rows, available, occuipied, checked, selected]);
+  }, [entity, rows,/*  available, occuipied, checked, */ selected]);
 
   return (
     <>

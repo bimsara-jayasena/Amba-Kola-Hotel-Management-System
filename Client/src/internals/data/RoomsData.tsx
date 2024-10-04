@@ -71,6 +71,7 @@ function GetData() {
   const [occuipied, setOccuipied] = useState<any[]>([]);
   const [available, setAvailable] = useState<any[]>([]);
   const [checked, setChecked] = useState<any[]>([]);
+
   const fetchData = () => {
    
       axios
@@ -87,7 +88,19 @@ function GetData() {
             };
             return obj;
           });
+          const occuipiedRooms = data.filter(
+            (room: any) => room.room_status == "occupied"
+          );
+          const availableRooms = data.filter(
+            (room: any) => room.room_status == "available"
+          );
+          const checkedRooms = data.filter(
+            (room: any) => room.room_status == "checked"
+          );
           
+          setOccuipied(occuipiedRooms);
+          setAvailable(availableRooms);
+          setChecked(checkedRooms);
           setRows(data);
         })
         .catch((err) => {
@@ -118,7 +131,7 @@ function GetData() {
   useEffect(() => {
     fetchData();
   }, []);
-  return { rows, columns,roomTypeCol,typeRows, fetchData };
+  return { rows, columns,roomTypeCol,typeRows, fetchData,occuipied,available,checked };
 }
 
 export default GetData;
