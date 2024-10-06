@@ -58,24 +58,22 @@ export default function UpdateEmp({
   const [edit, setEdit] = React.useState(false);
   const [departmentChange, setDepartmentChanged] = React.useState(false);
 
- 
   const labels = {
-  
-    "first_name":"First Name", 
-   "last_name":"Last Name", 
-    "email":"Email",
-    "contact_no":"Contact No", 
-    "street":"Street", 
-    "city":"City",
-    "postal_code":"Postal code",
-    "state":"State",
-    "department":"Department",
-    "role":"Role"
+    first_name: "First Name",
+    last_name: "Last Name",
+    email: "Email",
+    contact_no: "Contact No",
+    street: "Street",
+    city: "City",
+    postal_code: "Postal code",
+    state: "State",
+    department: "Department",
+    role: "Role",
   };
   const getEmployeData = () => {
     axios.get(`http://localhost:5555/employees/${id}`).then((res) => {
       const obj = res.data;
-      
+
       console.log(obj);
       setDepartment(obj["department"]);
       setRole(obj["role"]);
@@ -161,119 +159,103 @@ export default function UpdateEmp({
         </Typography>
 
         <Grid container spacing={2}>
-          {Object.keys(data).map((key, index) =>{
-            const commonProps={
-              id:key,
-              fullWidth:true,
-              name:key,
-              value:data[key],
-              onChange:(e:any)=>handleInputChange(key,e),
-              disabled:!edit
+          {Object.keys(data).map((key, index) => {
+            const commonProps = {
+              id: key,
+              fullWidth: true,
+              name: key,
+              value: data[key],
+              onChange: (e: any) => handleInputChange(key, e),
+              disabled: !edit,
+            };
+            switch (key) {
+              case "department":
+                return (
+                  <Grid size={{ xs: 6, md: 6 }} key={index}>
+                    <FormLabel htmlFor="role">Department</FormLabel>
+                    <Select
+                      {...commonProps}
+                      value={department}
+                      label="department"
+                      onChange={(e: any) =>
+                        departmentChangeHandler(e.target.value)
+                      }
+                    >
+                      {departments.map((element) => (
+                        <MenuItem value={element.department}>
+                          {element.department}
+                        </MenuItem>
+                      ))}
+                    </Select>
+                  </Grid>
+                );
+              case "role":
+                return (
+                  <Grid size={{ xs: 6, md: 6 }} key={index}>
+                    <FormLabel htmlFor="role">Role</FormLabel>
+                    <Select
+                      {...commonProps}
+                      value={role}
+                      onChange={(e: any) => roleChangeHandler(e.target.value)}
+                    >
+                      {roles.map((element: any) =>
+                        element[department]
+                          ? element[department].map(
+                              (element: any, index: number) => (
+                                <MenuItem value={element} key={index}>
+                                  {element}
+                                </MenuItem>
+                              )
+                            )
+                          : null
+                      )}
+                    </Select>
+                  </Grid>
+                );
+              case "first_name":
+                return (
+                  <Grid size={{ xs: 6, md: 6 }} key={index}>
+                    <FormLabel htmlFor={key}>{labels[key]}</FormLabel>
+                    <TextField {...commonProps} type="text" />
+                  </Grid>
+                );
+              case "last_name":
+                return (
+                  <Grid size={{ xs: 6, md: 6 }} key={index}>
+                    <FormLabel htmlFor={key}>{labels[key]}</FormLabel>
+                    <TextField {...commonProps} type="text" />
+                  </Grid>
+                );
+              case "street":
+              case "state":
+              case "email":
+              case "contact_no":
+              case "email":
+                return (
+                  <Grid size={{ xs: 12 }}>
+                    <FormLabel htmlFor={key}>{labels[key]}</FormLabel>
+                    <TextField {...commonProps} type="text" />
+                  </Grid>
+                );
+              case "city":
+              case "postal_code":
+                return (
+                  <Grid size={{ xs: 6, md: 6 }}>
+                    <FormLabel htmlFor={key}>{labels[key]}</FormLabel>
+                    <TextField {...commonProps} type="text" />
+                  </Grid>
+                );
+              default:
+                return null;
             }
-           switch(key){
-            case "department" : return(
-              <Grid size={{ xs: 6, md: 6 }} key={index}>
-                <FormLabel htmlFor="role">Department</FormLabel>
-                <Select
-                {...commonProps}
-                
-                  value={department}
-                  label="department"
-                  onChange={(e: any) => departmentChangeHandler(e.target.value)}
-                
-                >
-                  {departments.map((element) => (
-                    <MenuItem value={element.department}>
-                      {element.department}
-                    </MenuItem>
-                  ))}
-                </Select>
-              </Grid>
-            ) 
-           case "role" :return (
-              <Grid size={{ xs: 6, md: 6 }} key={index}>
-                <FormLabel htmlFor="role">Role</FormLabel>
-                <Select
-                  {...commonProps}
-                  value={role}
-                  onChange={(e: any) => roleChangeHandler(e.target.value)}
-                 
-                >
-                  {roles.map((element: any) =>
-                    element[department]
-                      ? element[department].map(
-                          (element: any, index: number) => (
-                            <MenuItem value={element} key={index}>
-                              {element}
-                            </MenuItem>
-                          )
-                        )
-                      : null
-                  )}
-                </Select>
-              </Grid>
-            ) 
-            case "first_name":return (
-              <Grid size={{ xs: 6, md: 6 }} key={index}>
-                <FormLabel htmlFor={key}>{labels[key]}</FormLabel>
-                <TextField
-                  {...commonProps}
-                  type="text"
-                />
-              </Grid>
-            ) 
-            case "last_name" :return (
-              <Grid size={{ xs: 6, md: 6 }} key={index}>
-                <FormLabel htmlFor={key}>{labels[key]}</FormLabel>
-                <TextField
-                  {...commonProps}
-                  type="text"
-                />
-              </Grid>
-            ) 
-            case "street" :
-            case "state" :
-            case "email" :
-            case "contact_no" :
-            case "email" : return (
-              <Grid size={{ xs: 12 }}>
-                <FormLabel htmlFor={key}>{labels[key]}</FormLabel>
-                <TextField
-                {...commonProps}
-                type="text"
-                />
-              </Grid>
-            ) 
-            case "city" :
-            case "postal_code" : return (
-              <Grid size={{ xs: 6, md: 6 }}>
-                <FormLabel htmlFor={key}>{labels[key]}</FormLabel>
-                <TextField
-                 {...commonProps}
-                 type="text"
-                />
-              </Grid>
-            ) 
-            default :
-             return null;
-           };
-          }
-          )
-           
-          }
+          })}
         </Grid>
       </DialogContent>
-        <DialogActions>
-      <Button
-       
-        onClick={!edit ? () => setEdit(true) : () => updateHandler()}
-       
-      >
-        {edit ? <>Save Changes</> : <>Update</>}
-      </Button>
-      <Button onClick={deleteHandler} sx={{":hover":{background:'red'}}}>
-        delete
-      </Button>
+      <DialogActions>
+        <Button onClick={handleClose}>
+           Close
+        </Button>
+        
       </DialogActions>
       {}
     </Dialog>

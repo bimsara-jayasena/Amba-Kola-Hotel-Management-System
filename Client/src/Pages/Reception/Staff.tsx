@@ -2,33 +2,33 @@ import React, { useEffect, useRef, useState } from "react";
 import axios from "axios";
 import Typography from "@mui/material/Typography";
 import Skeleton from "@mui/material/Skeleton";
-import CustomizedDataGrid from "../../components/AdminDashboard/CustomizedDataGrid";
+import CustomizedDataGrid from "../../components/ReceptionDashboard/CustomizedDataGrid";
 import Grid from "@mui/material/Grid2";
-import HighlightedCard from "../../components/AdminDashboard/HighlightedCard";
+import HighlightedCard from "../../components/ReceptionDashboard/HighlightedCard";
 import StatCard, {
   StatCardProps,
-} from "../../components/AdminDashboard/StatCard";
-import CustomCard from "../../components/AdminDashboard/CustomCard";
+} from "../../components/ReceptionDashboard/StatCard";
+import CustomCard from "../../components/ReceptionDashboard/CustomCard";
 import { Box, Button, TextField } from "@mui/material";
 import { brand } from "../../theme/themePrimitives";
-import Header from "../../components/AdminDashboard/Header";
+import Header from "../../components/ReceptionDashboard/Header";
 import { columns, EmpRows } from "../../internals/data/EmployeeData";
 import { depCol, useDepRows } from "../../internals/data/DepartmentData";
-import CrudDataGrid from "../../components/AdminDashboard/CrudDataGrid";
+import CrudDataGrid from "../../components/ReceptionDashboard/CrudDataGrid";
 import { Any } from "@react-spring/web";
 import Alert from "@mui/material/Alert";
 import CheckIcon from "@mui/icons-material/Check";
 import { stat } from "fs";
-import AddCard from "../../components/AdminDashboard/CRUD/Staff/AddCard";
+import AddCard from "../../components/ReceptionDashboard/CRUD/Staff/AddCard";
 import Select, { SelectChangeEvent } from "@mui/material/Select";
 import InputLabel from "@mui/material/InputLabel";
 import MenuItem from "@mui/material/MenuItem";
 import FormControl from "@mui/material/FormControl";
 import FormLabel from "@mui/material/FormLabel";
 import { isMultipleKey } from "@mui/x-data-grid/utils/keyboardUtils";
-import NewDepartmentDialog from "../../components/AdminDashboard/CRUD/Staff/NewDepartmentDialog";
-import NewEmployeDialog from "../../components/AdminDashboard/CRUD/Staff/NewEmployeDialog";
-import UpdateEmp from "../../components/AdminDashboard/CRUD/Staff/UpdateEmp";
+import NewDepartmentDialog from "../../components/ReceptionDashboard/CRUD/Staff/NewDepartmentDialog";
+import NewEmployeDialog from "../../components/ReceptionDashboard/CRUD/Staff/NewEmployeDialog";
+import UpdateEmp from "../../components/ReceptionDashboard/CRUD/Staff/UpdateEmp";
 
 
 export default function Staff() {
@@ -124,12 +124,7 @@ export default function Staff() {
       case "Employee Details":
         setTable(
           <>
-            <div className="w-full flex justify-end mb-1">
-              {" "}
-              <button className="border border-slate-800 rounded w-[15rem] h-[2.5rem] hover:bg-slate-800" onClick={handleClickOpen}>
-                add new
-              </button>
-            </div>
+           
             <CustomizedDataGrid
               columns={columns}
               rows={empRows}
@@ -145,15 +140,7 @@ export default function Staff() {
       case "Department Details":
         setTable(
           <>
-            <div className="w-full flex justify-end mb-1">
-              {" "}
-              <button
-                className="border border-slate-800 rounded w-[15rem] h-[2.5rem] hover:bg-slate-800"
-                onClick={handleClickOpen}
-              >
-                add new
-              </button>
-            </div>
+            
             <CustomizedDataGrid
               columns={depCol}
               rows={depRows}

@@ -14,6 +14,7 @@ import Stack from "@mui/material/Stack";
 import MuiCard from "@mui/material/Card";
 import { styled } from "@mui/material/styles";
 import ForgotPassword from "./ForgotPassword";
+
 import {
   GoogleIcon,
   FacebookIcon,
@@ -21,6 +22,9 @@ import {
 } from "../../components/Login/CustomIcons";
 import AppTheme from "../../theme/AppTheme";
 import ColorModeSelect from "../../theme/ColorModeSelect";
+import axios from "axios";
+import { redirect } from "react-router-dom";
+
 
 const Card = styled(MuiCard)(({ theme }) => ({
   display: "flex",
@@ -61,12 +65,23 @@ const SignInContainer = styled(Stack)(({ theme }) => ({
 }));
 
 export default function SignIn(props: { disableCustomTheme?: boolean }) {
+  const [email,setEmail]=React.useState("");
+  const [password,setPassword]=React.useState("");
   const [emailError, setEmailError] = React.useState(false);
   const [emailErrorMessage, setEmailErrorMessage] = React.useState("");
   const [passwordError, setPasswordError] = React.useState(false);
   const [passwordErrorMessage, setPasswordErrorMessage] = React.useState("");
   const [open, setOpen] = React.useState(false);
-
+  const [employes,setEmployes]=React.useState([]);
+  const [role,setRole]=React.useState("");
+  const [firstTry,setFirstTry]=React.useState(false);
+  const [route,setRoute]=React.useState("");
+  React.useEffect(()=>{
+    axios.get('http://localhost:5555/employees')
+    .then((res)=>{
+        setEmployes(res.data);
+    })
+  },[])
   const handleClickOpen = () => {
     setOpen(true);
   };
@@ -75,33 +90,42 @@ export default function SignIn(props: { disableCustomTheme?: boolean }) {
     setOpen(false);
   };
 
-  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
-    const data = new FormData(event.currentTarget);
-    console.log({
-      email: data.get("email"),
-      password: data.get("password"),
-    });
-  };
 
+  const emailRef=React.useRef(email);
+  const passwordRef=React.useRef(password);
   const validateInputs = () => {
-    const email = document.getElementById("email") as HTMLInputElement;
-    const password = document.getElementById("password") as HTMLInputElement;
-
+    emailRef.current=email;
+    passwordRef.current=password;
+    setFirstTry(true);
+   
+    const correctEmail=employes.some((employe:any)=>employe.email==email);
+    const correctPwd=employes.some((employe:any)=>employe.password==password);
+   
     let isValid = true;
 
-    if (!email.value || !/\S+@\S+\.\S+/.test(email.value)) {
+    
+
+    if (!email || !/\S+@\S+\.\S+/.test(email)) {
       setEmailError(true);
       setEmailErrorMessage("Please enter a valid email address.");
       isValid = false;
-    } else {
+    } else if(!correctEmail){
+      setEmailError(true);
+      setEmailErrorMessage("invalid email address.");
+      isValid = false;
+    }else {
       setEmailError(false);
       setEmailErrorMessage("");
+     
     }
 
-    if (!password.value || password.value.length < 6) {
+    if (!password ) {
       setPasswordError(true);
-      setPasswordErrorMessage("Password must be at least 6 characters long.");
+      setPasswordErrorMessage("Please enter your password.");
+      isValid = false;
+    } else if(!correctPwd){
+      setPasswordError(true);
+      setPasswordErrorMessage("invalid password.");
       isValid = false;
     } else {
       setPasswordError(false);
@@ -109,6 +133,40 @@ export default function SignIn(props: { disableCustomTheme?: boolean }) {
     }
 
     return isValid;
+  };
+ 
+ React.useEffect(()=>{
+    
+
+ },[email,password])
+  React.useEffect(()=>{
+   if(firstTry){
+     if(emailRef.current!=email){
+      setEmailError(false);
+      setEmailErrorMessage("");
+     }
+     if(passwordRef.current!=password){
+      setPasswordError(false);
+      setPasswordErrorMessage("");
+     }
+     
+   }
+    
+  },[email,password])
+
+  const handleSubmit = () => {
+     
+     const valid=validateInputs();
+     if(valid){
+       const user:any=employes.find((employe:any)=>employe.email==email);
+       if(user){
+        console.log(user.role);
+        
+        const role=user.role;
+        window.location.href=`/${role}/Dashboard`
+       }
+     }
+    
   };
 
   return (
@@ -130,8 +188,6 @@ export default function SignIn(props: { disableCustomTheme?: boolean }) {
           </Typography>
           <Box
             component="form"
-            onSubmit={handleSubmit}
-            noValidate
             sx={{
               display: "flex",
               flexDirection: "column",
@@ -148,13 +204,15 @@ export default function SignIn(props: { disableCustomTheme?: boolean }) {
                 type="email"
                 name="email"
                 placeholder="your@email.com"
-                autoComplete="email"
+                
                 autoFocus
                 required
                 fullWidth
                 variant="outlined"
                 color="secondary"
                 sx={{ ariaLabel: "email" }}
+                value={email}
+                onChange={(e)=>setEmail(e.target.value)}
               />
             </FormControl>
             <FormControl>
@@ -176,11 +234,13 @@ export default function SignIn(props: { disableCustomTheme?: boolean }) {
                 placeholder="••••••"
                 type="password"
                 id="password"
-                autoComplete="current-password"
+               
                 required
                 fullWidth
                 variant="outlined"
                 color={passwordError ? "error" : "primary"}
+                value={password}
+                onChange={(e)=>setPassword(e.target.value)}
               />
             </FormControl>
             <FormControlLabel
@@ -188,7 +248,7 @@ export default function SignIn(props: { disableCustomTheme?: boolean }) {
               label="Remember me"
             />
             <ForgotPassword open={open} handleClose={handleClose} />
-            <Link href={'/Dashboard'}>
+          {/*   <Link href={`/${role}/Dashboard`}> */}
               <Button
                 fullWidth
                 sx={{
@@ -198,11 +258,11 @@ export default function SignIn(props: { disableCustomTheme?: boolean }) {
                     background: "#3b82f6",
                   },
                 }}
-                onClick={validateInputs}
+                onClick={handleSubmit}
               >
                 Sign in
               </Button>
-            </Link>
+            {/* </Link> */}
             <Typography sx={{ textAlign: "center" }}>
               Don&apos;t have an account?{" "}
               <span>
